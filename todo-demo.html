@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do list – live demo</title>
+    <style>
+        :root {
+            --bg: #000;
+            --accent: #6a1b9a;
+            --card: gold;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            background-color: var(--bg);
+            color: #fff;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.5;
+        }
+
+        .todo {
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 1.5rem;
+            background-color: var(--card);
+            color: #000;
+            box-shadow: 10px 10px 0 rgb(63, 63, 63);
+        }
+
+        h1 {
+            margin: 0 0 1rem;
+            font-size: 1.75rem;
+        }
+
+        form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            min-width: 0;
+            padding: 0.5rem 0.75rem;
+            border: 2px solid #000;
+            background-color: #fff;
+            color: #000;
+            font: inherit;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            border: 2px solid #000;
+            background-color: #000;
+            color: var(--card);
+            font: inherit;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            border-color: var(--accent);
+            background-color: var(--accent);
+            color: #fff;
+        }
+
+        :focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        #todo-list {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        #todo-list li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.6rem 0;
+            border-top: 2px solid #000;
+        }
+
+        #todo-list label {
+            display: flex;
+            flex: 1;
+            align-items: center;
+            gap: 0.6rem;
+            overflow-wrap: anywhere;
+            cursor: pointer;
+        }
+
+        #todo-list input[type="checkbox"] {
+            width: 1.2rem;
+            height: 1.2rem;
+            accent-color: var(--accent);
+        }
+
+        #todo-list li.done span {
+            color: #444;
+            text-decoration: line-through;
+        }
+
+        .remove {
+            padding: 0.25rem 0.6rem;
+            background-color: transparent;
+            color: #000;
+            font-size: 0.85rem;
+        }
+
+        .count {
+            margin: 1rem 0 0;
+            font-weight: bold;
+        }
+
+        .links {
+            margin: 1.5rem 0 0;
+            font-size: 0.9rem;
+        }
+
+        .links a {
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+
+<main class="todo">
+    <h1>To-do list</h1>
+
+    <form id="todo-form">
+        <label for="todo-input" class="visually-hidden">New task</label>
+        <input type="text" id="todo-input" placeholder="What needs to be done?" autocomplete="off" required>
+        <button type="submit">Add</button>
+    </form>
+
+    <ul id="todo-list"></ul>
+    <p id="todo-count" class="count" role="status"></p>
+
+    <p class="links">
+        <a href="html-ex.html">View the source code</a> ·
+        <a href="projects.html">Back to projects</a>
+    </p>
+</main>
+
+<script>
+    const form = document.querySelector("#todo-form");
+    const input = document.querySelector("#todo-input");
+    const list = document.querySelector("#todo-list");
+    const count = document.querySelector("#todo-count");
+
+    // Load saved tasks. Start empty if nothing is saved or the browser blocks storage.
+    let tasks = [];
+    try {
+        tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    } catch (error) {
+        tasks = [];
+    }
+    if (!Array.isArray(tasks)) {
+        tasks = [];
+    }
+
+    function save() {
+        try {
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        } catch (error) {
+            // Saving is optional, so the app keeps working without it
+        }
+    }
+
+    function updateCount() {
+        const left = tasks.filter((task) => !task.done).length;
+
+        if (tasks.length === 0) {
+            count.textContent = "No tasks yet. Add one above.";
+        } else {
+            count.textContent = left + (left === 1 ? " task left" : " tasks left");
+        }
+    }
+
+    function renderTask(task) {
+        const item = document.createElement("li");
+        item.classList.toggle("done", task.done);
+
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = task.done;
+
+        // textContent (not innerHTML) shows typed text as plain text, so it can't inject HTML
+        const text = document.createElement("span");
+        text.textContent = task.text;
+        label.append(checkbox, text);
+
+        const remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "remove";
+        remove.textContent = "Remove";
+        remove.setAttribute("aria-label", "Remove task: " + task.text);
+
+        checkbox.addEventListener("change", () => {
+            task.done = checkbox.checked;
+            item.classList.toggle("done", task.done);
+            save();
+            updateCount();
+        });
+
+        remove.addEventListener("click", () => {
+            tasks = tasks.filter((other) => other !== task);
+            item.remove();
+            save();
+            updateCount();
+            input.focus();
+        });
+
+        item.append(label, remove);
+        list.append(item);
+    }
+
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        const text = input.value.trim();
+        if (text === "") {
+            return;
+        }
+
+        const task = { text: text, done: false };
+        tasks.push(task);
+        renderTask(task);
+        save();
+        updateCount();
+
+        input.value = "";
+        input.focus();
+    });
+
+    tasks.forEach(renderTask);
+    updateCount();
+</script>
+
+</body>
+</html>

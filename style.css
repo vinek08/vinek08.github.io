@@ -1,0 +1,435 @@
+:root {
+    --bg: #000;
+    --accent: #6a1b9a;
+    --card: gold;
+    --text-on-card: #000;
+    --text-on-accent: #fff;
+    --text-on-bg: #fff;
+    --shadow: 10px 10px 0 rgb(63, 63, 63);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg);
+    color: var(--text-on-bg);
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.6;
+}
+
+main {
+    flex: 1;
+    width: 100%;
+    padding: 3rem 1.25rem;
+}
+
+.menu {
+    background-color: var(--accent);
+    box-shadow: var(--shadow);
+}
+
+.menu ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0.75rem 1rem;
+}
+
+.menu a {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: var(--text-on-accent);
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.menu a:hover,
+.menu a:focus-visible {
+    background-color: var(--card);
+    color: var(--text-on-card);
+}
+
+.menu a[aria-current] {
+    border-bottom: 3px solid var(--card);
+}
+
+a:focus-visible,
+button:focus-visible,
+pre:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem;
+    background-color: var(--card);
+    color: var(--text-on-card);
+    box-shadow: var(--shadow);
+}
+
+.selfie {
+    flex-shrink: 0;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-text {
+    max-width: 60ch;
+}
+
+.profile-text h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.1;
+}
+
+.profile-text p {
+    margin: 0 0 1rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .profile {
+        animation: rise 0.6s ease-out both;
+    }
+}
+
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.button {
+    display: inline-block;
+    padding: 0.6rem 1.25rem;
+    background-color: var(--text-on-card);
+    color: var(--card);
+    border: 2px solid var(--text-on-card);
+    font: inherit;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button:hover,
+.button:focus-visible {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--text-on-accent);
+}
+
+.button-outline {
+    background-color: transparent;
+    color: var(--text-on-card);
+}
+
+footer {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--text-on-bg);
+}
+
+footer p {
+    margin: 0;
+}
+
+.page {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.page h1 {
+    margin: 0 0 0.75rem;
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.1;
+}
+
+.page-intro {
+    max-width: 48ch;
+    margin: 0 0 2rem;
+    padding-left: 1.25rem;
+    border-left: 4px solid var(--card);
+    font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+    line-height: 1.5;
+}
+
+.card {
+    background-color: var(--card);
+    color: var(--text-on-card);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.card h2 {
+    margin: 0 0 0.75rem;
+}
+
+.card p {
+    margin: 0 0 1rem;
+}
+
+.card p:last-child {
+    margin-bottom: 0;
+}
+
+.card a {
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.card a:hover {
+    color: var(--text-on-card);
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+}
+
+.project-grid .card {
+    margin-bottom: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .project-grid .card {
+        animation: rise 0.6s ease-out both;
+    }
+
+    .project-grid .card:nth-child(2) { animation-delay: 0.12s; }
+    .project-grid .card:nth-child(3) { animation-delay: 0.24s; }
+    .project-grid .card:nth-child(4) { animation-delay: 0.36s; }
+    .project-grid .card:nth-child(5) { animation-delay: 0.48s; }
+    .project-grid .card:nth-child(n+6) { animation-delay: 0.6s; }
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.filter-button {
+    padding: 0.4rem 1.1rem;
+    background-color: transparent;
+    color: var(--card);
+    border: 2px solid var(--card);
+    font: inherit;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.filter-button:hover {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    color: var(--text-on-accent);
+}
+
+.filter-button[aria-pressed="true"] {
+    background-color: var(--card);
+    color: var(--text-on-card);
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+}
+
+.tags li {
+    background-color: var(--text-on-card);
+    color: var(--card);
+    padding: 0.1rem 0.7rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.timeline {
+    list-style: none;
+    margin: 0 0 0 0.5rem;
+    padding: 0;
+    border-left: 3px solid var(--accent);
+}
+
+.timeline li {
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.timeline li + li {
+    margin-top: 1.5rem;
+}
+
+.timeline li::before {
+    content: "";
+    position: absolute;
+    top: 0.45em;
+    left: -8px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background-color: var(--accent);
+}
+
+.timeline-meta {
+    display: block;
+    font-size: 0.9rem;
+    color: #3a3a3a;
+}
+
+.timeline p {
+    margin: 0.25rem 0 0;
+}
+
+.contact-list {
+    margin: 0;
+    padding-left: 1.25rem;
+}
+
+.contact-list li + li {
+    margin-top: 0.75rem;
+}
+
+.copy-button {
+    margin-left: 0.5rem;
+    padding: 0.2rem 0.8rem;
+    font-size: 0.9rem;
+}
+
+.copy-status {
+    margin-left: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: var(--card);
+    font-weight: bold;
+}
+
+.back-link:hover {
+    color: var(--text-on-bg);
+}
+
+/* Inline-kod i text, t.ex. std::find */
+.card code {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 0.95em;
+}
+
+/* Kodblock: bevarar radbrytningar och indrag, scrollar i sidled vid behov */
+.code {
+    margin: 0;
+    padding: 1rem;
+    background-color: var(--bg);
+    color: var(--text-on-bg);
+    border-left: 4px solid var(--accent);
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.code code {
+    font-size: inherit;
+}
+
+/* Kort med rubrik och kopieringsknapp på samma rad */
+.card-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.card-header h2 {
+    margin: 0;
+}
+
+.copy-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.copy-group .copy-button,
+.copy-group .copy-status {
+    margin-left: 0;
+}
+
+/* ---------- Snabbfakta (about-me.html) ---------- */
+.facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    list-style: none;
+    margin: 0 0 2.5rem;
+    padding: 0;
+}
+
+.facts li {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--accent);
+}
+
+.fact-label {
+    display: block;
+    color: var(--card);
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+/* ---------- Mobil ---------- */
+@media (max-width: 640px) {
+    .profile {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.5rem;
+        gap: 1.5rem;
+    }
+
+    .actions {
+        justify-content: center;
+    }
+
+    .menu a {
+        font-size: 1.05rem;
+        padding: 0.4rem 0.6rem;
+    }
+}

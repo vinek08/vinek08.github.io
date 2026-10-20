@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Contact – Vincent Ekström</title>
+        <meta name="description" content="Contact details for Vincent Ekström.">
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <nav class="menu" aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="about-me.html">About me</a></li>
+                    <li><a href="contact.html" aria-current="page">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="page">
+                <h1>Contact</h1>
+                <p class="page-intro">
+                    Interested in working together or just want to say hello?
+                    Send me a message and I will get back to you.
+                </p>
+                <section class="card" aria-labelledby="details">
+                    <h2 id="details">Get in touch</h2>
+                    <ul class="contact-list">
+                        <li>
+                            Email: <a id="email-link" href="mailto:vincentekstrom08@gmail.com">vincentekstrom08@gmail.com</a>
+                            <button type="button" class="button copy-button" data-copy="#email-link" data-status="#copy-status">Copy email</button>
+                            <span id="copy-status" class="copy-status" role="status"></span>
+                        </li>
+                        <li>GitHub: <a href="https://github.com/vinek08">github.com/vinek08</a></li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2026 Vincent Ekström</p>
+        </footer>
+    </body>
+</html>

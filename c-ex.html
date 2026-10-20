@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C++ search comparison – Vincent Ekström</title>
+    <meta name="description" content="A C++ program that compares binary search, linear search and std::find on 100 million numbers.">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+    <body>
+        <header>
+            <nav class="menu" aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html" aria-current="true">Projects</a></li>
+                    <li><a href="about-me.html">About me</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="page">
+                <a class="back-link" href="projects.html">Back to projects</a>
+
+                <h1>C++ search comparison</h1>
+                <p class="page-intro">
+                    A program that fills a vector with 100 million random numbers
+                    and measures how long it takes to look for the number 17 in three
+                    different ways.
+                </p>
+                <section class="card" aria-labelledby="about">
+                    <h2 id="about">About the project</h2>
+                    <p>
+                        The program compares <code>std::binary_search</code>, a hand-written
+                        linear search with a <code>for</code> loop, and <code>std::find</code>.
+                        Each version measures its time with <code>std::chrono</code> and
+                        prints the result in milliseconds.
+                    </p>
+                    <ul class="tags" aria-label="Technologies">
+                        <li>C++</li>
+                        <li>STL</li>
+                        <li>chrono</li>
+                    </ul>
+                </section>
+                <section class="card" aria-labelledby="source">
+                    <div class="card-header">
+                        <h2 id="source">Source code</h2>
+                        <div class="copy-group">
+                            <button type="button" class="button copy-button" data-copy="#code-block" data-status="#code-copy-status">Copy code</button>
+                            <span id="code-copy-status" class="copy-status" role="status"></span>
+                        </div>
+                    </div>
+                    <pre class="code" tabindex="0"><code id="code-block">#include &lt;chrono&gt;
+                        #include &lt;algorithm&gt;
+                        #include &lt;vector&gt;
+                        #include &lt;iostream&gt;
+                        #include &lt;random&gt;
+                        #include &lt;ctime&gt;
+
+                        using namespace std;
+                        int binarySearch();
+                        int linearSearch();
+                        int findSearch();
+
+                        int main() {
+                            srand(time(0));
+                            binarySearch();
+                            linearSearch();
+                            findSearch();
+                        }
+
+                        int binarySearch() {
+                            auto start = chrono::steady_clock::now();
+                            vector &lt;int&gt; v(100000000);
+                            generate(v.begin(), v.end(), []() { return rand() % 100; });
+                            sort(v.begin(), v.end());
+                            bool found = binary_search(v.begin(), v.end(), 17);
+                            cout &lt;&lt; "\n 17 found" &lt;&lt; boolalpha &lt;&lt; " " &lt;&lt; found &lt;&lt; '\n';
+                            auto stop = chrono::steady_clock::now();
+                            auto time = chrono::duration_cast&lt;chrono::milliseconds&gt;(stop - start);
+                            cout &lt;&lt;"Time of binary_search: " &lt;&lt; time.count() &lt;&lt; "ms" &lt;&lt; '\n';
+                            return 0;
+                        }
+
+                        int linearSearch() {
+                            auto start = chrono::steady_clock::now();
+                            bool found = false;
+                            vector &lt;int &gt; v(100000000);
+                            generate(v.begin(), v.end(), []() { return rand() % 100; });
+                            for (int i = 0; i &lt; v.size(); ++i) {
+                                if (v[i] == 17) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                            cout &lt;&lt; "\n 17 found" &lt;&lt; " " &lt;&lt; boolalpha &lt;&lt; found &lt;&lt; '\n';
+                            auto stop = chrono::steady_clock::now();
+                            auto time = chrono::duration_cast&lt;chrono::milliseconds&gt;(stop - start);
+                            cout &lt;&lt; "Time of linear search: " &lt;&lt; time.count() &lt;&lt; "ms \n";
+                            return 0;
+                        }
+
+                        int findSearch() {
+                            auto start = chrono::steady_clock::now();
+                            vector &lt;int&gt; v(100000000);
+                            int target = 17;
+                            bool found = false;
+                            generate(v.begin(), v.end(), []() { return rand() % 100; });
+                            auto it = find(v.begin(), v.end(), 17);
+                            if (it != v.end())
+                                found = true;
+                            cout &lt;&lt; "\n 17 found" &lt;&lt; " " &lt;&lt; boolalpha &lt;&lt; found &lt;&lt; '\n';
+                            auto stop = chrono::steady_clock::now();
+                            auto time = chrono::duration_cast&lt;chrono::milliseconds&gt;(stop - start);
+                            cout &lt;&lt; "Time of find: " &lt;&lt; time.count() &lt;&lt; "ms \n";
+                            return 0;
+                        }
+                    </code></pre>
+                </section>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2026 Vincent Ekström</p>
+        </footer>
+    </body>
+</html>

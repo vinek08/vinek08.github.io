@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>To-do list – Vincent Ekström</title>
+        <meta name="description" content="A small to-do list built with HTML, CSS and JavaScript. Includes a live demo and the full source code.">
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <nav class="menu" aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html" aria-current="true">Projects</a></li>
+                    <li><a href="about-me.html">About me</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="page">
+                <a class="back-link" href="projects.html">Back to projects</a>
+                <h1>To-do list</h1>
+                <p class="page-intro">
+                    A small to-do list where you can add, complete and remove tasks.
+                    Your tasks are saved in the browser, so they are still there when you come back.
+                </p>
+                <section class="card" aria-labelledby="about">
+                    <h2 id="about">About the project</h2>
+                    <p>
+                        The page is built with HTML, styled with CSS and made interactive with
+                        JavaScript. Tasks are stored in the browser with <code>localStorage</code>,
+                        and text is added with <code>textContent</code> so anything typed into the
+                        field is shown as plain text and can't inject HTML into the page.
+                    </p>
+                    <ul class="tags" aria-label="Technologies">
+                        <li>HTML</li>
+                        <li>CSS</li>
+                        <li>JavaScript</li>
+                    </ul>
+                    <p><a href="todo-demo.html">Open the live demo</a></p>
+                </section>
+                <section class="card" aria-labelledby="source">
+                    <div class="card-header">
+                        <h2 id="source">Source code</h2>
+                        <div class="copy-group">
+                            <button type="button" class="button copy-button" data-copy="#code-block" data-status="#code-copy-status">Copy code</button>
+                            <span id="code-copy-status" class="copy-status" role="status"></span>
+                        </div>
+                    </div>
+                    <pre class="code" tabindex="0"><code id="code-block">&lt;!DOCTYPE html&gt;
+        &lt;html lang="en"&gt;
+        &lt;head&gt;
+            &lt;meta charset="UTF-8"&gt;
+            &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+            &lt;title&gt;To-do list – live demo&lt;/title&gt;
+            &lt;style&gt;
+                :root {
+                    --bg: #000;
+                    --accent: #6a1b9a;
+                    --card: gold;
+                }
+
+                * {
+                    box-sizing: border-box;
+                }
+
+                body {
+                    margin: 0;
+                    min-height: 100vh;
+                    padding: 2rem 1rem;
+                    background-color: var(--bg);
+                    color: #fff;
+                    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+                    line-height: 1.5;
+                }
+
+                .todo {
+                    max-width: 480px;
+                    margin: 0 auto;
+                    padding: 1.5rem;
+                    background-color: var(--card);
+                    color: #000;
+                    box-shadow: 10px 10px 0 rgb(63, 63, 63);
+                }
+
+                h1 {
+                    margin: 0 0 1rem;
+                    font-size: 1.75rem;
+                }
+
+                form {
+                    display: flex;
+                    gap: 0.5rem;
+                    margin-bottom: 1rem;
+                }
+
+                input[type="text"] {
+                    flex: 1;
+                    min-width: 0;
+                    padding: 0.5rem 0.75rem;
+                    border: 2px solid #000;
+                    background-color: #fff;
+                    color: #000;
+                    font: inherit;
+                }
+
+                button {
+                    padding: 0.5rem 1rem;
+                    border: 2px solid #000;
+                    background-color: #000;
+                    color: var(--card);
+                    font: inherit;
+                    font-weight: bold;
+                    cursor: pointer;
+                }
+
+                button:hover {
+                    border-color: var(--accent);
+                    background-color: var(--accent);
+                    color: #fff;
+                }
+
+                :focus-visible {
+                    outline: 3px solid var(--accent);
+                    outline-offset: 2px;
+                }
+
+                #todo-list {
+                    margin: 0;
+                    padding: 0;
+                    list-style: none;
+                }
+
+                #todo-list li {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 1rem;
+                    padding: 0.6rem 0;
+                    border-top: 2px solid #000;
+                }
+
+                #todo-list label {
+                    display: flex;
+                    flex: 1;
+                    align-items: center;
+                    gap: 0.6rem;
+                    overflow-wrap: anywhere;
+                    cursor: pointer;
+                }
+
+                #todo-list input[type="checkbox"] {
+                    width: 1.2rem;
+                    height: 1.2rem;
+                    accent-color: var(--accent);
+                }
+
+                #todo-list li.done span {
+                    color: #444;
+                    text-decoration: line-through;
+                }
+
+                .remove {
+                    padding: 0.25rem 0.6rem;
+                    background-color: transparent;
+                    color: #000;
+                    font-size: 0.85rem;
+                }
+
+                .count {
+                    margin: 1rem 0 0;
+                    font-weight: bold;
+                }
+
+                .links {
+                    margin: 1.5rem 0 0;
+                    font-size: 0.9rem;
+                }
+
+                .links a {
+                    color: var(--accent);
+                    font-weight: bold;
+                }
+
+                .visually-hidden {
+                    position: absolute;
+                    width: 1px;
+                    height: 1px;
+                    overflow: hidden;
+                    clip: rect(0 0 0 0);
+                    white-space: nowrap;
+                }
+            &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;main class="todo"&gt;
+            &lt;h1&gt;To-do list&lt;/h1&gt;
+            &lt;form id="todo-form"&gt;
+                &lt;label for="todo-input" class="visually-hidden"&gt;New task&lt;/label&gt;
+                &lt;input type="text" id="todo-input" placeholder="What needs to be done?" autocomplete="off" required&gt;
+                &lt;button type="submit"&gt;Add&lt;/button&gt;
+            &lt;/form&gt;
+            &lt;ul id="todo-list"&gt;&lt;/ul&gt;
+            &lt;p id="todo-count" class="count" role="status"&gt;&lt;/p&gt;
+            &lt;p class="links"&gt;
+                &lt;a href="html-ex.html"&gt;View the source code&lt;/a&gt; ·
+                &lt;a href="projects.html"&gt;Back to projects&lt;/a&gt;
+            &lt;/p&gt;
+        &lt;/main&gt;
+        &lt;script&gt;
+            const form = document.querySelector("#todo-form");
+            const input = document.querySelector("#todo-input");
+            const list = document.querySelector("#todo-list");
+            const count = document.querySelector("#todo-count");
+
+            // Load saved tasks. Start empty if nothing is saved or the browser blocks storage.
+            let tasks = [];
+            try {
+                tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+            } catch (error) {
+                tasks = [];
+            }
+            if (!Array.isArray(tasks)) {
+                tasks = [];
+            }
+
+            function save() {
+                try {
+                    localStorage.setItem("tasks", JSON.stringify(tasks));
+                } catch (error) {
+                    // Saving is optional, so the app keeps working without it
+                }
+            }
+
+            function updateCount() {
+                const left = tasks.filter((task) =&gt; !task.done).length;
+
+                if (tasks.length === 0) {
+                    count.textContent = "No tasks yet. Add one above.";
+                } else {
+                    count.textContent = left + (left === 1 ? " task left" : " tasks left");
+                }
+            }
+
+            function renderTask(task) {
+                const item = document.createElement("li");
+                item.classList.toggle("done", task.done);
+
+                const label = document.createElement("label");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.checked = task.done;
+
+                // textContent (not innerHTML) shows typed text as plain text, so it can't inject HTML
+                const text = document.createElement("span");
+                text.textContent = task.text;
+                label.append(checkbox, text);
+
+                const remove = document.createElement("button");
+                remove.type = "button";
+                remove.className = "remove";
+                remove.textContent = "Remove";
+                remove.setAttribute("aria-label", "Remove task: " + task.text);
+
+                checkbox.addEventListener("change", () =&gt; {
+                    task.done = checkbox.checked;
+                    item.classList.toggle("done", task.done);
+                    save();
+                    updateCount();
+                });
+
+                remove.addEventListener("click", () =&gt; {
+                    tasks = tasks.filter((other) =&gt; other !== task);
+                    item.remove();
+                    save();
+                    updateCount();
+                    input.focus();
+                });
+
+                item.append(label, remove);
+                list.append(item);
+            }
+
+            form.addEventListener("submit", (event) =&gt; {
+                event.preventDefault();
+
+                const text = input.value.trim();
+                if (text === "") {
+                    return;
+                }
+
+                const task = { text: text, done: false };
+                tasks.push(task);
+                renderTask(task);
+                save();
+                updateCount();
+
+                input.value = "";
+                input.focus();
+            });
+            tasks.forEach(renderTask);
+            updateCount();
+        &lt;/script&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;</code></pre>
+                </section>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2026 Vincent Ekström</p>
+        </footer>
+    </body>
+</html>

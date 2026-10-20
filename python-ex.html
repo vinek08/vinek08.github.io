@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Python palindrome checker – Vincent Ekström</title>
+        <meta name="description" content="A short Python program that checks whether a word or phrase is a palindrome.">
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <header>
+            <nav class="menu" aria-label="Main navigation">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="projects.html" aria-current="true">Projects</a></li>
+                    <li><a href="about-me.html">About me</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <div class="page">
+                <a class="back-link" href="projects.html">Back to projects</a>
+
+                <h1>Python palindrome checker</h1>
+                <p class="page-intro">
+                    A short program that reads a word or phrase from the user and
+                    checks whether it reads the same forwards and backwards.
+                </p>
+                <section class="card" aria-labelledby="about">
+                    <h2 id="about">About the project</h2>
+                    <p>
+                        The program reverses the input with the slice <code>x[::-1]</code>
+                        and compares it to the original. It prints <code>true</code> if they
+                        match and <code>false</code> if they do not.
+                    </p>
+                    <ul class="tags" aria-label="Technologies">
+                        <li>Python</li>
+                    </ul>
+                </section>
+                <section class="card" aria-labelledby="source">
+                    <div class="card-header">
+                        <h2 id="source">Source code</h2>
+                        <div class="copy-group">
+                            <button type="button" class="button copy-button" data-copy="#code-block" data-status="#code-copy-status">Copy code</button>
+                            <span id="code-copy-status" class="copy-status" role="status"></span>
+                        </div>
+                    </div>
+                    <pre class="code" tabindex="0"><code id="code-block">x = str(input())
+                        if x == x[::-1]:
+                            print("true")
+                        else:
+                            print("false")
+                    </code></pre>
+                </section>
+            </div>
+        </main>
+        <footer>
+            <p>&copy; 2026 Vincent Ekström</p>
+        </footer>
+    </body>
+</html>
